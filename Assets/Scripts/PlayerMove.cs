@@ -14,16 +14,14 @@ public class PlayerMove : MonoBehaviour
     private float xmove;
     private float ymove;
 
-    public enum state { Idle, Attacking, Guarding, Damaged, Moving, UseCard, Dead}
-
-    state curState = state.Idle;
-
     public FixedJoystick fixedJoystick;
 
+    private Rigidbody2D myRigid;
     void Move()
     {
         anim.SetBool("Moving", true);
-        speed = new Vector3(maxSpeed*xmove*Time.deltaTime, maxSpeed*ymove*Time.deltaTime);
+        speed = new Vector2(maxSpeed*xmove, maxSpeed*ymove);
+        //speed = new Vector3(maxSpeed*xmove*Time.deltaTime, maxSpeed*ymove*Time.deltaTime);
         if(xmove >0){
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
              //this.GetComponent<SpriteRenderer>().flipX = false;
@@ -32,29 +30,37 @@ public class PlayerMove : MonoBehaviour
            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             //this.GetComponent<SpriteRenderer>().flipX = true;
         }
-        transform.position += speed;
+
+        myRigid.velocity = speed;
+        //transform.position += speed; 
     }
     
-    public void Attack() {
+    public void AttackAnim() {
         anim.SetTrigger("Attack");
     }
 
-    public void GetGuard(){
+    public void GetGuardAnim(){
         anim.SetBool("Guard", true);
     }
 
-    public void OutGuard(){
+    public void OutGuardAnim(){
         anim.SetBool("Guard", false);
     }
 
-    public void UseCard(){
+    public void UseCardAnim(){
         anim.SetTrigger("UseCard");
     }
 
-    public void Damaged(){
+    public void DamagedAnim(){
         anim.SetTrigger("Hit");
     }
 
+    private void Awake()
+    {
+        myRigid = GetComponent<Rigidbody2D>();
+        PlayerEventManager.OnPlayerAttack += AttackAnim;
+        PlayerEventManager.OnCardUse += UseCardAnim;
+    }
     void Update()
     {
         //movement manage
@@ -64,18 +70,17 @@ public class PlayerMove : MonoBehaviour
         if((xmove !=0 | ymove !=0) && (anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Move")|anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Idle"))) {
             Move();
         }
-        else anim.SetBool("Moving", false);
-
+        else {
+            myRigid.velocity = new Vector2(0, 0);
+            anim.SetBool("Moving", false);
+        }
 
         //damage manage
         if(Input.GetKeyDown(KeyCode.H)){
-            Damaged();
+            DamagedAnim();
         }
 
-        //usecard manage
-        if(Input.GetKeyDown(KeyCode.C)){
-            UseCard();
-        }
+    
     }
 
     

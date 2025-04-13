@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 
 public class CardController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IBeginDragHandler, IEndDragHandler 
@@ -13,13 +14,21 @@ public class CardController : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     private bool isDragging;
     private Vector2 pointerDownPos;
     private float dragThreshold = 20f;
+    private Image myImage;
+    public DeckManager myDeck;
+    public int thisIndex = 0;
+    private Card nowCard = new Card();
     public UnityEvent onCardUse;
 
-    private void Awake() {
+    private void Start() {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         originalPosition = rectTransform.anchoredPosition;
         isDragging = false;
+        myImage = GetComponent<Image>();
+        nowCard = myDeck.SetFirstHand(thisIndex);
+        Debug.Log(nowCard.name);
+        myImage.sprite = Resources.Load<Sprite>("Cards/" + nowCard.name);
     }
 
     //Event Functions
@@ -72,6 +81,15 @@ public class CardController : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     private void UseCard(){
         Debug.Log("Use Card");
         rectTransform.anchoredPosition = originalPosition;
+        nowCard.UseEffect();
         onCardUse?.Invoke();
+    }
+
+    public void SetCard(Card topCard){
+        myImage.sprite = Resources.Load<Sprite>("Cards/" + topCard.name);
+        Card tempCard = nowCard;
+        nowCard = topCard;
+        myDeck.ShiftCard(tempCard);
+        Debug.Log("Set New Card : " + nowCard.name);
     }
 }

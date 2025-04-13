@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class DefaultCard : MonoBehaviour, IPointerUpHandler
 {
     public GameObject card;
+    public DeckManager deck;
     public Image timer;
     public float drawCoolTime;
    
@@ -16,6 +17,7 @@ public class DefaultCard : MonoBehaviour, IPointerUpHandler
         timer.fillAmount = 0;
         gameObject.SetActive(false);
         card.SetActive(true);
+        card.GetComponent<CardController>().SetCard(deck.GetTopCard());
     }
     //Cooled Draw
     void Update()
@@ -26,6 +28,8 @@ public class DefaultCard : MonoBehaviour, IPointerUpHandler
             timer.fillAmount = 0;
             gameObject.SetActive(false);
             card.SetActive(true);
+            card.GetComponent<CardController>().SetCard(deck.GetTopCard());
+
         }
     }
 }
