@@ -51,7 +51,7 @@ public class PlayerMove : MonoBehaviour
         anim.SetTrigger("UseCard");
     }
 
-    public void DamagedAnim(){
+    public void DamagedAnim(float damage){
         anim.SetTrigger("Hit");
     }
 
@@ -60,6 +60,7 @@ public class PlayerMove : MonoBehaviour
         myRigid = GetComponent<Rigidbody2D>();
         PlayerEventManager.OnPlayerAttack += AttackAnim;
         PlayerEventManager.OnCardUse += UseCardAnim;
+        PlayerEventManager.onPlayerHit += DamagedAnim;
     }
     void Update()
     {
@@ -77,7 +78,7 @@ public class PlayerMove : MonoBehaviour
 
         //damage manage
         if(Input.GetKeyDown(KeyCode.H)){
-            DamagedAnim();
+            DamagedAnim(20);
         }
 
     

@@ -3343,6 +3343,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2349e10747022e34a8762d8da4b1747d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 300
+  energySpeed: 3
+  healthSlider: {fileID: 1697948708}
+  energySlider: {fileID: 98118559}
 --- !u!4 &899017671
 Transform:
   m_ObjectHideFlags: 0
@@ -5471,7 +5475,19 @@ MonoBehaviour:
   m_Value: 2.72
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 953607176}
+        m_TargetAssemblyTypeName: PlayerEventManager, Assembly-CSharp
+        m_MethodName: PlayerLifeChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1729821338
 GameObject:
   m_ObjectHideFlags: 0
@@ -7191,6 +7207,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1613550423591527568, guid: e279196409db13b4fb140218ceaea3f7, type: 3}
+      propertyPath: curHealth
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 2745288424573806400, guid: e279196409db13b4fb140218ceaea3f7, type: 3}
       propertyPath: m_Name
       value: Player

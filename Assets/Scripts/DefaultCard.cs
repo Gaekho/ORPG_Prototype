@@ -10,14 +10,35 @@ public class DefaultCard : MonoBehaviour, IPointerUpHandler
     public DeckManager deck;
     public Image timer;
     public float drawCoolTime;
-   
-   //Quick Draw
+
+    private Canvas canvas;
+    private Slider energy;
+
+    public void Start()
+    {
+        canvas = GetComponentInParent<Canvas>();
+        Slider[] sliders = canvas.GetComponentsInChildren<Slider>();
+        foreach(Slider slider in sliders){
+            if(slider.name == "Energy Slider"){
+                energy = slider;
+                break;
+            }
+        }
+    }
+
+    //Quick Draw
     public void OnPointerUp(PointerEventData data){
-        Debug.Log("Quick Draw");
-        timer.fillAmount = 0;
-        gameObject.SetActive(false);
-        card.SetActive(true);
-        card.GetComponent<CardController>().SetCard(deck.GetTopCard());
+        if(energy.value >= 1){
+            energy.value -= 1;
+            Debug.Log("Quick Draw");
+            timer.fillAmount = 0;
+            gameObject.SetActive(false);
+            card.SetActive(true);
+            card.GetComponent<CardController>().SetCard(deck.GetTopCard());
+        }
+        else {
+            Debug.Log("Low Energy");
+        }
     }
     //Cooled Draw
     void Update()
