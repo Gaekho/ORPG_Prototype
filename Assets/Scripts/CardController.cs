@@ -18,7 +18,7 @@ public class CardController : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     public DeckManager myDeck;
     public int thisIndex = 0;
     private Card nowCard = new Card();
-    private Slider energy;
+    //private Slider energy;
     public UnityEvent onCardUse;
 
     private void Start() {
@@ -31,13 +31,13 @@ public class CardController : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         Debug.Log(nowCard.name);
         myImage.sprite = Resources.Load<Sprite>("Cards/" + nowCard.name);
 
-        Slider[] sliders = canvas.GetComponentsInChildren<Slider>();
+        /*Slider[] sliders = canvas.GetComponentsInChildren<Slider>();
         foreach(Slider slider in sliders){
             if(slider.name == "Energy Slider"){
                 energy = slider;
                 break;
             }
-        }
+        }*/
     }
 
     //Event Functions
@@ -88,8 +88,8 @@ public class CardController : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     }
 
     private void UseCard(){
-        if(energy.value >= nowCard.cost){
-            energy.value -= nowCard.cost;
+        if(PlayerStatus.playerEnergy >= nowCard.cost){
+            PlayerStatus.playerEnergy -= nowCard.cost;
             Debug.Log("Use Card");
             rectTransform.anchoredPosition = originalPosition;
             nowCard.UseEffect();

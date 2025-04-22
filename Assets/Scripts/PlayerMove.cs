@@ -13,15 +13,13 @@ public class PlayerMove : MonoBehaviour
     private Vector3 speed;
     private float xmove;
     private float ymove;
-
-    public FixedJoystick fixedJoystick;
-
     private Rigidbody2D myRigid;
     void Move()
     {
-        anim.SetBool("Moving", true);
+        anim.SetBool("Moving", true);  
         speed = new Vector2(maxSpeed*xmove, maxSpeed*ymove);
         //speed = new Vector3(maxSpeed*xmove*Time.deltaTime, maxSpeed*ymove*Time.deltaTime);
+
         if(xmove >0){
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
              //this.GetComponent<SpriteRenderer>().flipX = false;
@@ -51,7 +49,7 @@ public class PlayerMove : MonoBehaviour
         anim.SetTrigger("UseCard");
     }
 
-    public void DamagedAnim(float damage){
+    public void DamagedAnim(int damage){
         anim.SetTrigger("Hit");
     }
 
@@ -65,8 +63,8 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         //movement manage
-        xmove = fixedJoystick.Horizontal;
-        ymove = fixedJoystick.Vertical;
+        xmove = Input.GetAxis("Horizontal");
+        ymove = Input.GetAxis("Vertical");
 
         if((xmove !=0 | ymove !=0) && (anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Move")|anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Idle"))) {
             Move();
@@ -78,7 +76,8 @@ public class PlayerMove : MonoBehaviour
 
         //damage manage
         if(Input.GetKeyDown(KeyCode.H)){
-            DamagedAnim(20);
+            PlayerStatus.GetDamage(20);
+            Debug.Log(PlayerStatus.playerHealth);
         }
 
     

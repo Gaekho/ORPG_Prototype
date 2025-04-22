@@ -9,28 +9,22 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    public float maxHealth = 300f;
+    public int maxHealth = 150;
     public float energySpeed = 3f;
-    public Slider healthSlider;
-    public Slider energySlider;
 
+    
+    // Start is called before the first frame update
     void Awake()
     {
-        
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        healthSlider.maxValue = maxHealth;
-        healthSlider.value = maxHealth;
-        energySlider.value = 0f;      
+        PlayerStatus.playerHealth = maxHealth;
+        PlayerStatus.playerEnergy = 0f;      
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(energySlider.value < 3){
-            energySlider.value += (1/energySpeed)*Time.deltaTime;
+        if(PlayerStatus.playerEnergy < 3){
+            PlayerStatus.playerEnergy += (1/energySpeed)*Time.deltaTime;
         }
 
     }

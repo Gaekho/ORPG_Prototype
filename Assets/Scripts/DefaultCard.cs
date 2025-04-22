@@ -12,24 +12,24 @@ public class DefaultCard : MonoBehaviour, IPointerUpHandler
     public float drawCoolTime;
 
     private Canvas canvas;
-    private Slider energy;
+    //private Slider energy;
 
     public void Start()
     {
         canvas = GetComponentInParent<Canvas>();
-        Slider[] sliders = canvas.GetComponentsInChildren<Slider>();
+        /*Slider[] sliders = canvas.GetComponentsInChildren<Slider>();
         foreach(Slider slider in sliders){
             if(slider.name == "Energy Slider"){
                 energy = slider;
                 break;
             }
-        }
+        }*/
     }
 
     //Quick Draw
     public void OnPointerUp(PointerEventData data){
-        if(energy.value >= 1){
-            energy.value -= 1;
+        if(PlayerStatus.playerEnergy >= 1){
+            PlayerStatus.playerEnergy -= 1;
             Debug.Log("Quick Draw");
             timer.fillAmount = 0;
             gameObject.SetActive(false);
